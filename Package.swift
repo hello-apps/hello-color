@@ -2,18 +2,18 @@
 import PackageDescription
 
 let package = Package(
-    name: "HelloColors",
+    name: "HelloColor",
     platforms: [.iOS(.v15), .macOS(.v12), .tvOS(.v15), .watchOS(.v8), .macCatalyst(.v15)],
     products: [
         .library(
-            name: "HelloColors",
-            targets: ["HelloColors"]),
+            name: "HelloColor",
+            targets: ["HelloColor"]),
     ],
     targets: [
         .target(
-            name: "HelloColors"),
+            name: "HelloColor"),
         .testTarget(
-            name: "HelloColorsTests",
-            dependencies: ["HelloColors"]),
+            name: "HelloColorTests",
+            dependencies: ["HelloColor"]),
     ]
 )
