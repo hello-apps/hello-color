@@ -47,10 +47,10 @@ public struct HelloColor: Codable, Equatable, Hashable {
   public var a: Double
   
   public init(r: Double, g: Double, b: Double, a: Double = 1) {
-    self.r = r
-    self.g = g
-    self.b = b
-    self.a = a
+    self.r = min(1, max(0, r))
+    self.g = min(1, max(0, g))
+    self.b = min(1, max(0, b))
+    self.a = min(1, max(0, a))
   }
   
   public var nativeColor: NativeColor {
@@ -204,6 +204,8 @@ public extension HelloColor {
   static var fadedRed = HelloColor(r: 0.9, g: 0, b: 0)
   static var fullRed = HelloColor(r: 1.0, g: 0, b: 0)
   
+  static var darkGrey = HelloColor(r: 0.32, g: 0.32, b: 0.32)
+  
   static var neonGreen = HelloColor(r: 0.1, g: 0.8, b: 0.1)
   
   enum simpsons {}
@@ -316,7 +318,7 @@ public extension HelloColor {
     return diff / 3 < 0.1
   }
   
-  var brightness: CGFloat {
+  var brightness: Double {
     r * 0.225 + g * 0.7 + b * 0.075
   }
   
@@ -326,6 +328,22 @@ public extension HelloColor {
   
   var isDim: Bool {
     brightness < 0.4
+  }
+  
+  var readableOverlayColor: HelloColor {
+    isDark ? .light : .dark
+  }
+  
+  func with(brightness: Double) -> HelloColor {
+    HelloColor(r: brightness * r, g: brightness * g, b: brightness * b, a: a)
+  }
+  
+  func lighten() -> HelloColor {
+    with(brightness: 1.4)
+  }
+  
+  func darken() -> HelloColor {
+    with(brightness: 0.65)
   }
 }
 
