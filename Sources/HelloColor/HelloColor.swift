@@ -205,6 +205,7 @@ public extension HelloColor {
   static var fullRed = HelloColor(r: 1.0, g: 0, b: 0)
   
   static var darkGrey = HelloColor(r: 0.32, g: 0.32, b: 0.32)
+  static var darkerGrey = HelloColor(r: 0.26, g: 0.26, b: 0.26)
   
   static var neonGreen = HelloColor(r: 0.1, g: 0.8, b: 0.1)
   
@@ -212,6 +213,7 @@ public extension HelloColor {
   enum creamsicle {}
   enum lego {}
   enum ketchup {}
+  enum bluePalette {}
   enum forest {}
   enum mario {}
   enum pride {}
@@ -233,6 +235,12 @@ public extension HelloColor.retroGrey {
   static let dark = HelloColor(r: 0.48, g: 0.48, b: 0.48)
 }
 
+public extension HelloColor.bluePalette {
+  static let light = HelloColor(r: 0.5, g: 0.8, b: 1)
+  static let medium = HelloColor(r: 0.21, g: 0.47, b: 0.96)
+  static let dark = HelloColor(r: 0.09, g: 0.22, b: 0.46)
+}
+
 public extension HelloColor.pride {
   static let red = HelloColor(r: 0.92, g: 0.3, b: 0.24)
   static let orange = HelloColor(r: 0.95, g: 0.6, b: 0.22)
@@ -252,6 +260,11 @@ public extension HelloColor.retroApple {
   static let blue = HelloColor(r: 0.27, g: 0.61, b: 0.84, a: 1)
   
   static let lightPlastic = HelloColor(r: 0.86, g: 0.86, b: 0.82)
+  
+  static var all: [HelloColor] {
+    [.retroApple.green, .retroApple.yellow, .retroApple.orange,
+     .retroApple.red, .retroApple.purple, .retroApple.blue]
+  }
 }
 
 

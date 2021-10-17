@@ -1,5 +1,4 @@
 import SwiftUI
-import SwiftUIConvenience
 
 public struct QuestionBlockView: View {
   
@@ -27,7 +26,7 @@ public struct QuestionBlockView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
         }.padding(0.075 * geometry.size.width)
         Text("?")
-          .animatableFont(name: "LCD Solid", size: 0.9 * geometry.size.width)
+          .font(.custom("LCD Solid", fixedSize: 0.9 * geometry.size.width))
           .offset(y: 0.05 * geometry.size.width)
       }.background(HelloColor.mario.questionBlock.swiftuiColor)
     }
