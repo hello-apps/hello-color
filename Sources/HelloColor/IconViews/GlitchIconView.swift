@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftConvenience
 import SwiftUIConvenience
 
 fileprivate struct BaseGlitchIconView: View {
@@ -15,15 +16,15 @@ fileprivate struct BaseGlitchIconView: View {
   public var body: some View {
     GeometryReader { geometry in
       ZStack {
-        Color(.sRGB, red: 0.12, green: 0.96, blue: 0.93, opacity: 1)
+        Color(.sRGB, red: 0.05, green: 0.05, blue: 1, opacity: 1)
           .mask(characterView)
-          .offset(x: -offset * geometry.size.width, y: -offset * geometry.size.height)
-        Color(.sRGB, red: 0.98, green: 0.96, blue: 0.14, opacity: 1)
+          .offset(x: -1.5 * offset * geometry.size.width, y: -offset * geometry.size.height)
+        Color(.sRGB, red: 0.05, green: 1, blue: 0.05, opacity: 1)
           .mask(characterView)
           .offset(x: offset * geometry.size.width, y: offset * geometry.size.height)
-        Color(.sRGB, red: 0.98, green: 0.18, blue: 0.33, opacity: 1)
+        Color(.sRGB, red: 1, green: 0.05, blue: 0.05, opacity: 1)
           .mask(characterView)
-          .offset(x: 0.75 * offset * geometry.size.width, y: -1.75 * offset * geometry.size.height)
+          .offset(x: offset * geometry.size.width, y: -1.75 * offset * geometry.size.height)
         characterView
           .offset(x: -offset * geometry.size.width, y: -offset * geometry.size.height)
           .mask(characterView
@@ -44,15 +45,17 @@ public struct GlitchIconView: View {
   }
   
   @State var size: CGFloat = 0
-  @State var image: NativeImage = NativeImage()
+  @State var image: NativeImage?
   
   func update(size: CGFloat) {
     guard self.size != size else { return }
-    self.size = size
-    if let image = ImageRenderer.render(view: BaseGlitchIconView(characterView: characterView),
-                                        size: CGSize(width: size, height: size)) {
-      self.image = image
-      self.size = 0
+    dispatchMainAsync {
+      self.size = size
+      if let image = ImageRenderer.render(view: BaseGlitchIconView(characterView: characterView),
+                                          size: CGSize(width: size, height: size)) {
+        self.image = image
+        self.size = 0
+      }
     }
   }
   
@@ -103,9 +106,18 @@ public struct GlitchIconView: View {
   
   public var body: some View {
     GeometryReader { geometry in
+      var _ = update(size: geometry.size.minSide)
       ZStack {
         ForEach(segments) { segment in
-          Image(image)
+          Group {
+            if let image = image {
+              Image(image)
+            } else {
+              BaseGlitchIconView(characterView: characterView)
+                .frame(width: geometry.size.width,
+                       height: geometry.size.height)
+            }
+          }
             .mask {
               Rectangle()
                 .frame(width: geometry.size.width,
@@ -120,7 +132,6 @@ public struct GlitchIconView: View {
       }
       .frame(width: geometry.size.width, height: geometry.size.height)
       .background(HelloColor.black.swiftuiColor)
-      .onAppear { update(size: geometry.size.minSide) }
     }
   }
 }
