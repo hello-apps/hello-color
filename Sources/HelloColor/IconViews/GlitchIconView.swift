@@ -30,7 +30,7 @@ fileprivate struct BaseGlitchIconView: View {
           .mask(characterView
                   .offset(x: offset * geometry.size.width, y: offset * geometry.size.height))
           .mask(characterView
-                  .offset(x: 0.5 * offset * geometry.size.width, y: -1.5 * offset * geometry.size.height))
+                  .offset(x: 0.5 * offset * geometry.size.width, y: -offset * geometry.size.height))
       }.frame(width: geometry.size.width, height: geometry.size.height)
     }
   }

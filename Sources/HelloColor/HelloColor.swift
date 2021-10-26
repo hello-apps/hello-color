@@ -61,14 +61,14 @@ public struct HelloColor: Codable, Equatable, Hashable {
   }
   
   public var swiftuiColor: Color {
-    Color(.displayP3, red: r, green: g, blue: b)
+    Color(.displayP3, red: r, green: g, blue: b, opacity: a)
   }
   
   public func withFakeAlpha(_ alpha: Double, background: HelloColor) -> HelloColor {
     HelloColor(r: r * alpha + background.r * (1 - alpha),
               g: g * alpha + background.g * (1 - alpha),
               b: b * alpha + background.b * (1 - alpha),
-              a: 1)
+              a: a)
   }
 }
 
@@ -249,6 +249,11 @@ public extension HelloColor.pride {
   static let blue = HelloColor(r: 0.21, g: 0.47, b: 0.96)
   static let violet = HelloColor(r: 0.44, g: 0.2, b: 0.96)
   static let pink = HelloColor(r: 0.74, g: 0.2, b: 1, a: 1)
+  
+  static var all: [HelloColor] {
+    [.pride.red, .pride.orange, .pride.yellow,
+     .pride.green, .pride.blue, .pride.violet]
+  }
 }
 
 public extension HelloColor.retroApple {

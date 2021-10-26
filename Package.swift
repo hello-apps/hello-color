@@ -1,20 +1,20 @@
 // swift-tools-version:5.5
 import PackageDescription
+import Foundation
 
-let useLocal = false
-let dependencies: [Package.Dependency]
-if useLocal {
-  dependencies = [
-    .package(name: "SwiftUIConvenience",
-             path: "~/Repos/swift-packages/swiftui-convenience")
-  ]
+let swiftUIConveniencePackage: Package.Dependency
+if FileManager.default.fileExists(atPath: "Users/adrian/Repos/swift-packages/swiftui-convenience") {
+  swiftUIConveniencePackage = .package(name: "SwiftUIConvenience",
+                               path: "~/Repos/swift-packages/swiftui-convenience")
 } else {
-  dependencies = [
-    .package(name: "SwiftUIConvenience",
-             url: "https://github.com/hello-apps/swiftui-convenience",
-             branch: "main")
-  ]
+  swiftUIConveniencePackage = .package(name: "SwiftUIConvenience",
+                               url: "https://github.com/hello-apps/swiftui-convenience",
+                               branch: "main")
 }
+
+let dependencies: [Package.Dependency] = [
+  swiftUIConveniencePackage
+]
 
 let package = Package(
     name: "HelloColor",
