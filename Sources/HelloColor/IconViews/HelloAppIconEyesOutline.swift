@@ -26,7 +26,7 @@ public struct OutlineHelloEyes: View {
           .frame(width: eyeWidth * geometry.size.width)
       }.frame(width: eyeSpacing * geometry.size.width, height: eyeHeight * geometry.size.width)
         .offset(y: 0.06 * geometry.size.height)
-        .frame(width: geometry.size.width, height: geometry.size.width)
+        .frame(width: geometry.size.width, height: geometry.size.height)
     }
   }
 }
