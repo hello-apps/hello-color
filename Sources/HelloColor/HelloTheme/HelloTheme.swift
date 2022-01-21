@@ -51,16 +51,67 @@ public struct HelloTheme: Equatable {
       else { return textColors(for: .background).primary }
     case .layer1:
       guard !layer1Background.color(layeredOn: background.color).isSimilar(to: accentColor)
-      else { return textColors(for: .background).primary }
+      else { return textColors(for: .layer1).primary }
     case .layer2:
       guard !layer2Background.color(layeredOn: color(for: .layer1)).isSimilar(to: accentColor)
-      else { return textColors(for: .background).primary }
+      else { return textColors(for: .layer2).primary }
     case .floating:
       guard !floatingBackground.color().isSimilar(to: accentColor)
-      else { return textColors(for: .background).primary }
+      else { return textColors(for: .floating).primary }
     case .accent: return accentColor.readableOverlayColor.swiftuiColor
     }
     return accentColor.swiftuiColor
+  }
+  
+  public func linkColor(on layer: Layer) -> HelloColor {
+    let backgroundColor = color(for: layer)
+    let textColor = textColors(for: layer).primary.helloColor
+    let accentColor = accentColor(on: layer).helloColor
+    
+    if isDim {
+      return .skyBlue.withFakeAlpha(0.5, background: .black)
+    } else if !accentColor.isSimilar(to: textColor) {
+      return accentColor
+    } else if backgroundColor.isEssentiallyGreyscale {
+      if backgroundColor.isDark {
+        return .skyBlue
+      } else {
+        return .skyBlue
+      }
+    } else {
+      if textColor.isEssentiallyGreyscale {
+        if textColor.isDark {
+          return .skyBlue.darken()
+        } else {
+          return .skyBlue.lighten()
+        }
+      } else {
+        if backgroundColor.isDark {
+          return .light
+        } else {
+          return .dark
+        }
+      }
+    }
+  }
+  
+  public func errorColor(on layer: Layer) -> HelloColor {
+    let backgroundColor = color(for: layer)
+    let textColor = textColors(for: layer).primary.helloColor
+    
+    if backgroundColor.isEssentiallyGreyscale {
+      if backgroundColor.isDark {
+        return .fadedRed
+      } else {
+        return .fadedRed
+      }
+    } else {
+      if backgroundColor.isDark {
+        return .light
+      } else {
+        return .dark
+      }
+    }
   }
   
   public var layer1Background: HelloSectionBackground {
@@ -114,8 +165,14 @@ public struct HelloTheme: Equatable {
     case .layer1: return sectionTextColors
     case .layer2: return layer2TextColors
     case .floating: return overrideFloatingTextColors ?? backgroundTextColors
-    case .accent: return isDim ? .dim : accentColor.isDark ? .light : .dark
+    case .accent: return isDim ? .black : accentColor.isDark ? .light : .dark
     }
+  }
+  
+  public func readableTextColors(on color: HelloColor) -> HelloTextColors {
+    isDim
+      ? color.brightness < 0.14 ? .dim : .black
+      : color.isDark ? .light : .dark
   }
   
   @ViewBuilder
@@ -130,7 +187,7 @@ public struct HelloTheme: Equatable {
         Blur(style: layer1Background.color(layeredOn: background.color).isDark ? .systemUltraThinMaterialDark : .systemUltraThinMaterialLight)
           .clipShape(shape)
         #endif
-        shape.fill(background.color.swiftuiColor.opacity(0.6))
+        shape.fill(background.color.swiftuiColor.opacity(0.8))
       }
     case .accent: shape.fill(accentColor.swiftuiColor)
     }
@@ -188,10 +245,10 @@ public extension EnvironmentValues {
 public extension HelloTheme {
   
   static var panda: HelloTheme {
-    HelloTheme(background: .solid(.light),
-               layer1Background: .solid(.dark),
-               layer2Background: .solid(.light),
-               accentColor: .dark)
+    HelloTheme(background: .solid(.dark),
+               layer1Background: .solid(.light),
+               layer2Background: .solid(.dark),
+               accentColor: .light)
   }
   
   static var mario: HelloTheme {
@@ -211,8 +268,15 @@ public extension HelloTheme {
   
   static var white: HelloTheme {
     HelloTheme(background: .solid(.white),
-               layer1Background: .solid(.light),
-               layer2Background: .solid(.white),
+               layer1Background: .bordered(fill: .white, border: .light),
+               layer2Background: .bordered(fill: .white, border: .light),
+               floatingBackground: .lightBlur)
+  }
+  
+  static var light: HelloTheme {
+    HelloTheme(background: .solid(.offWhite),
+               layer1Background: .solid(.white),
+               layer2Background: .solid(.light),
                floatingBackground: .lightBlur)
   }
   
@@ -232,10 +296,19 @@ public extension HelloTheme {
   static var ketchup: HelloTheme {
     HelloTheme(background: .solid(.ketchup.red),
                backgroundTextColors: .constant(.ketchup.yellow),
-               layer1TextColors: .constant(.ketchup.red),
-               layer1Background: .solid(.ketchup.yellow),
+               layer1TextColors: .constant(.dark),
+               layer1Background: .solid(.ketchup.orange),
                layer2Background: .solid(.ketchup.red),
-               accentColor: .ketchup.orange)
+               accentColor: .ketchup.yellow)
+  }
+  
+  static var monkey: HelloTheme {
+    HelloTheme(background: .solid(.monkey.lightOrange),
+               backgroundTextColors: .constant(.monkey.white),
+               layer1TextColors: .constant(.monkey.darkOrange),
+               layer1Background: .solid(.monkey.white),
+               layer2Background: .solid(.monkey.darkOrange),
+               accentColor: .monkey.white)
   }
   
   static var blackDim: HelloTheme {
@@ -245,7 +318,6 @@ public extension HelloTheme {
                layer2TextColors: .dim,
                layer1Background: .bordered(fill: .black, border: .darkerGrey),
                layer2Background: .bordered(fill: .black, border: .darkerGrey),
-               floatingBackground: .veryDarkBlur,
-               accentColor: .darkerGrey)
+               floatingBackground: .veryDarkBlur)
   }
 }

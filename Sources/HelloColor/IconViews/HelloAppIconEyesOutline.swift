@@ -9,7 +9,7 @@ public struct OutlineHelloEyes: View {
   let color: HelloColor
   var outlineWidth: CGFloat
   
-  public init(color: HelloColor, strokeWidth: Double = 0.125) {
+  public init(color: HelloColor, strokeWidth: Double = 0.0125) {
     self.color = color
     self.outlineWidth = strokeWidth
   }

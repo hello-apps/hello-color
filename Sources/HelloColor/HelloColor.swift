@@ -6,41 +6,7 @@ public typealias NativeColor = UIColor
 public typealias NativeColor = NSColor
 #endif
 
-public struct DynamicHelloColor: Codable, Equatable, Hashable {
-  var light: HelloColor
-  var dark: HelloColor
-  
-  public init(light: HelloColor, dark: HelloColor) {
-    self.light = light
-    self.dark = dark
-  }
-  
-  public var nativeColor: NativeColor {
-#if canImport(AppKit)
-    return NativeColor(name: nil) {
-      [.darkAqua, .vibrantDark].contains($0.bestMatch(from: [.aqua, .darkAqua, .vibrantDark, .vibrantLight]) ?? .aqua)
-      ? dark.nativeColor : light.nativeColor
-    }
-#elseif canImport(WatchKit)
-    return dark.nativeColor
-#elseif canImport(UIKit)
-    return NativeColor {
-      $0.userInterfaceStyle == .dark ? dark.nativeColor : light.nativeColor
-    }
-#endif
-  }
-  
-  public var swiftuiColor: Color {
-    Color(nativeColor)
-  }
-  
-  public func withFakeAlpha(_ alpha: Double) -> DynamicHelloColor {
-    DynamicHelloColor(light: light.withFakeAlpha(alpha, background: .white),
-                     dark: dark.withFakeAlpha(alpha, background: .black))
-  }
-}
-
-public struct HelloColor: Codable, Equatable, Hashable {
+public struct  HelloColor: Codable, Equatable, Hashable {
   public var r: Double
   public var g: Double
   public var b: Double
@@ -76,36 +42,6 @@ public extension HelloColor {
   static var white: HelloColor { HelloColor(r: 1.0, g: 1.0, b: 1.0, a: 1) }
   static var black: HelloColor { HelloColor(r: 0.0, g: 0.0, b: 0.0, a: 1) }
   
-  static var success = DynamicHelloColor(light: HelloColor(r: 0.2, g: 0.9, b: 0.2, a: 1),
-                                        dark: HelloColor(r: 0.4, g: 0.8, b: 0.4, a: 1))
-  
-  static var error = DynamicHelloColor(light: HelloColor(r: 1, g: 0.2, b: 0.2, a: 1),
-                                      dark: HelloColor(r: 0.8, g: 0.1, b: 0.1, a: 1))
-  
-  static var floatingCell = DynamicHelloColor(light: HelloColor(r: 1.0, g: 1.0, b: 1.0, a: 1),
-                                             dark: HelloColor(r: 0.08, g: 0.08, b: 0.08, a: 1))
-  
-  static var layer1 = DynamicHelloColor(light: HelloColor(r: 1.0, g: 1.0, b: 1.0, a: 1),
-                                       dark: HelloColor(r: 0.0, g: 0.0, b: 0.0, a: 1))
-  
-  static var layer2 = DynamicHelloColor(light: HelloColor(r: 0.96, g: 0.96, b: 0.96, a: 1),
-                                       dark: HelloColor(r: 0.1, g: 0.1, b: 0.1, a: 1))
-  
-  static var layer3 = DynamicHelloColor(light: HelloColor(r: 0.96, g: 0.96, b: 0.96, a: 1),
-                                       dark: HelloColor(r: 0.1, g: 0.1, b: 0.1, a: 1))
-  
-  //  static var layer3 = DynamicHelloColor(light: HelloColor(r: 0.96, g: 0.96, b: 0.96, a: 1),
-  //                                       dark: HelloColor(r: 0.14, g: 0.14, b: 0.14, a: 1))
-  
-  static var layer4 = DynamicHelloColor(light: HelloColor(r: 0.825, g: 0.825, b: 0.825, a: 1),
-                                       dark: HelloColor(r: 0.25, g: 0.25, b: 0.25, a: 1))
-  
-  static var floatingCellFaded = DynamicHelloColor(light: HelloColor(r: 0.975, g: 0.975, b: 0.975, a: 1),
-                                                  dark: HelloColor(r: 0.15, g: 0.15, b: 0.15, a: 1))
-  
-  static var floatingCellFaded2 = DynamicHelloColor(light: HelloColor(r: 0.95, g: 0.95, b: 0.95, a: 1),
-                                                   dark: HelloColor(r: 0.17, g: 0.17, b: 0.17, a: 1))
-  
   static var textPrimaryLight = HelloColor(r: 0.9, g: 0.9, b: 0.9, a: 1)
   static var textPrimaryDark = HelloColor(r: 0.1, g: 0.1, b: 0.1, a: 1)
   
@@ -115,72 +51,9 @@ public extension HelloColor {
   static var textTertiaryLight = HelloColor(r: 0.6, g: 0.6, b: 0.6, a: 1)
   static var textTertiaryDark = HelloColor(r: 0.35, g: 0.35, b: 0.35, a: 1)
   
-  
-  static var textPrimary = DynamicHelloColor(light: .textPrimaryDark,
-                                            dark: .textPrimaryLight)
-  
-  static var textSecondary = DynamicHelloColor(light: .textSecondaryDark,
-                                              dark: .textSecondaryLight)
-  
-  static var textTertiary = DynamicHelloColor(light: .textTertiaryDark,
-                                             dark: .textTertiaryLight)
-  
-  
-  
-  // Themes
-  
-  // Regular
-  static var regularTranslucent = DynamicHelloColor(light: HelloColor(r: 1.0, g: 1.0, b: 1.0, a: 0.4),
-                                                   dark: HelloColor(r: 0.0, g: 0.0, b: 0.0, a: 0.4))
-  
-  // Stealth
-  static var stealthTranslucent = DynamicHelloColor(light: HelloColor(r: 1.0, g: 1.0, b: 1.0, a: 0.8),
-                                                   dark: HelloColor(r: 0.0, g: 0.0, b: 0.0, a: 0.8))
-  
-  // Red
-  static var redAccent = DynamicHelloColor(light: HelloColor(r: 1, g: 0.2, b: 0.2, a: 1),
-                                          dark: HelloColor(r: 1, g: 0.1, b: 0.1, a: 1))
-  static var redTranslucent = DynamicHelloColor(light: HelloColor(r: 1, g: 0.4, b: 0.4, a: 0.6),
-                                               dark: HelloColor(r: 0.8, g: 0, b: 0, a: 0.4))
-  
-  // Blue
-  static var blue = DynamicHelloColor(light: HelloColor(r: 0.2, g: 0.2, b: 1, a: 1),
-                                     dark: HelloColor(r: 0.1, g: 0.1, b: 0.8, a: 1))
-  static var blueTranslucent = DynamicHelloColor(light: HelloColor(r: 0.2, g: 0.2, b: 1, a: 0.4),
-                                                dark: HelloColor(r: 0.1, g: 0.1, b: 0.8, a: 0.4))
-  
-  // Yellow
-  static var yellowAccent = DynamicHelloColor(light: HelloColor(r: 0.9, g: 0.9, b: 0.0, a: 1),
-                                             dark: HelloColor(r: 0.8, g: 0.8, b: 0.1, a: 1))
-  static var yellowTranslucent = DynamicHelloColor(light: HelloColor(r: 1, g: 1, b: 0.1, a: 0.4),
-                                                  dark: HelloColor(r: 0.9, g: 0.9, b: 0, a: 0.4))
-  
-  // Orange
-  static var orangeAccent = DynamicHelloColor(light: HelloColor(r: 1, g: 0.5, b: 0, a: 1),
-                                             dark: HelloColor(r: 1, g: 0.5, b: 0, a: 1))
-  static var orangeTranslucent = DynamicHelloColor(light: HelloColor(r: 1, g: 0.5, b: 0, a: 0.4),
-                                                  dark: HelloColor(r: 1, g: 0.5, b: 0, a: 0.4))
-  
-  // Green
-  static var greenAccent = DynamicHelloColor(light: HelloColor(r: 0.2, g: 1, b: 0.2, a: 1),
-                                            dark: HelloColor(r: 0.1, g: 0.8, b: 0.1, a: 1))
-  static var greenTranslucent = DynamicHelloColor(light: HelloColor(r: 0.2, g: 1, b: 0.2, a: 0.4),
-                                                 dark: HelloColor(r: 0.1, g: 0.8, b: 0.1, a: 0.4))
-  
-  // Pink
-  static var pinkAccent = DynamicHelloColor(light: HelloColor(r: 0.6, g: 0.4, b: 0.4, a: 1),
-                                           dark: HelloColor(r: 0.8, g: 0.4, b: 0.4, a: 1))
-  static var pinkTranslucent = DynamicHelloColor(light: HelloColor(r: 1, g: 0.6, b: 0.6, a: 0.4),
-                                                dark: HelloColor(r: 1, g: 0.5, b: 0.6, a: 0.4))
-  
-  // Purple
-  static var purpleAccent = DynamicHelloColor(light: HelloColor(r: 0.6, g: 0.1, b: 0.6, a: 1),
-                                             dark: HelloColor(r: 0.8, g: 0.1, b: 0.8, a: 1))
-  static var purpleTranslucent = DynamicHelloColor(light: HelloColor(r: 1, g: 0.1, b: 1, a: 0.4),
-                                                  dark: HelloColor(r: 0.8, g: 0.1, b: 0.8, a: 0.4))
-  
   static var monkeyOrange: HelloColor { HelloColor(r: 0.8, g: 0.4, b: 0.2) }
   
+  static var pink: HelloColor { HelloColor(r: 0.6, g: 0.4, b: 0.4) }
   static var fullBlue: HelloColor { HelloColor(r: 0, g: 0, b: 1) }
   static var fullGreen: HelloColor { HelloColor(r: 0, g: 1, b: 0) }
   static var darkGreen: HelloColor { HelloColor(r: 0.2, g: 0.5, b: 0.15) }
@@ -196,6 +69,7 @@ public extension HelloColor {
   static var darker: HelloColor { HelloColor(r: 0.1, g: 0.1, b: 0.1) }
   static var transparent: HelloColor { HelloColor(r: 0, g: 0, b: 0, a: 0) }
   static var light: HelloColor { HelloColor(r: 0.9, g: 0.9, b: 0.9) }
+  static var offWhite: HelloColor { HelloColor(r: 0.95, g: 0.95, b: 0.95) }
   
   static var dimWhite: HelloColor { HelloColor(r: 0.5, g: 0.5, b: 0.5) }
   static var veryDimWhite: HelloColor { HelloColor(r: 0.35, g: 0.35, b: 0.35) }
@@ -221,6 +95,7 @@ public extension HelloColor {
   enum retroApple {}
   enum retroGrey {}
   enum google {}
+  enum monkey {}
   
   static var options: [HelloColor] {
     [
@@ -292,19 +167,6 @@ public extension HelloColor.retroApple {
   }
 }
 
-
-public extension Color {
-  static let selfTextPrimary: Color = HelloColor.textPrimary.swiftuiColor
-  static let selfTextSecondary: Color = HelloColor.textSecondary.swiftuiColor
-  static let selfTextTertiary: Color = HelloColor.textTertiary.swiftuiColor
-  static let selfTextInvert: Color = Color(red: 0.1, green: 0.1, blue: 0.1)
-  
-  static let selfTextPrimaryLight: Color = HelloColor.textPrimaryLight.swiftuiColor
-  static let selfTextSecondaryLight: Color = HelloColor.textSecondaryLight.swiftuiColor
-  static let selfTextTertiaryLight: Color = HelloColor.textTertiaryLight.swiftuiColor
-  static let selfTextInvertLight: Color = Color(red: 0.1, green: 0.1, blue: 0.1)
-}
-
 public extension HelloColor.ketchup {
   static var red: HelloColor { HelloColor(r: 0.77, g: 0, b: 0) }
   static var yellow: HelloColor { HelloColor(r: 0.96, g: 0.7, b: 0) }
@@ -343,6 +205,12 @@ public extension HelloColor.mario {
   static var brick: HelloColor { HelloColor(r: 0.57, g: 0.31, b: 0.13) }
 }
 
+public extension HelloColor.monkey {
+  static var lightOrange: HelloColor { HelloColor(r: 0.71, g: 0.46, b: 0.35) }
+  static var darkOrange: HelloColor { HelloColor(r: 0.60, g: 0.36, b: 0.27) }
+  static var white: HelloColor { HelloColor(r: 0.95, g: 0.93, b: 0.93) }
+}
+
 public extension Color {
   static let selfTextPrimaryDark: Color = HelloColor.textPrimaryDark.swiftuiColor
   static let selfTextSecondaryDark: Color = HelloColor.textSecondaryDark.swiftuiColor
@@ -361,7 +229,7 @@ public extension HelloColor {
   }
   
   var isDark: Bool {
-    return brightness < 0.7
+    brightness < 0.7
   }
   
   var isDim: Bool {
@@ -370,6 +238,10 @@ public extension HelloColor {
   
   var isGreyscale: Bool {
     r == b && b == g
+  }
+  
+  var isEssentiallyGreyscale: Bool {
+    abs(r - b) < 0.1 && abs(b - g) < 0.1
   }
   
   var readableOverlayColor: HelloColor {

@@ -32,6 +32,7 @@ fileprivate struct BaseGlitchIconView: View {
           .mask(characterView
                   .offset(x: 0.5 * offset * geometry.size.width, y: -offset * geometry.size.height))
       }.frame(width: geometry.size.width, height: geometry.size.height)
+        .drawingGroup()
     }
   }
 }
@@ -132,6 +133,7 @@ public struct GlitchIconView: View {
       }
       .frame(width: geometry.size.width, height: geometry.size.height)
       .background(HelloColor.black.swiftuiColor)
+      .drawingGroup()
     }
   }
 }

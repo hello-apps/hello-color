@@ -13,11 +13,11 @@ public enum HelloTextColors: Equatable, Codable {
   public var primary: Color {
     switch self {
     case .constant(let color): return color.swiftuiColor
-    case .light: return .selfTextPrimaryLight
-    case .dark: return .selfTextPrimaryDark
+    case .light: return HelloColor.light.swiftuiColor
+    case .dark: return HelloColor.dark.swiftuiColor
     case .white: return HelloColor.white.swiftuiColor
     case .black: return HelloColor.black.swiftuiColor
-    case .dim: return .selfTextTertiaryLight
+    case .dim: return HelloColor.veryDimWhite.swiftuiColor
     case .ketchup: return HelloColor.ketchup.yellow.swiftuiColor
     }
   }
@@ -25,8 +25,8 @@ public enum HelloTextColors: Equatable, Codable {
   public var secondary: Color {
     switch self {
     case .constant(let color): return color.swiftuiColor
-    case .light, .ketchup: return .selfTextPrimaryLight.opacity(0.85)
-    case .dark: return .selfTextSecondaryDark
+    case .light, .ketchup: return HelloColor.light.swiftuiColor.opacity(0.85)
+    case .dark: return HelloColor.veryDimWhite.swiftuiColor
     case .white, .black, .dim: return primary
     }
   }
@@ -34,8 +34,8 @@ public enum HelloTextColors: Equatable, Codable {
   public var tertiary: Color {
     switch self {
     case .constant(let color): return color.swiftuiColor
-    case .light, .ketchup: return .selfTextPrimaryLight.opacity(0.65)
-    case .dark: return .selfTextTertiaryDark
+    case .light, .ketchup: return HelloColor.light.swiftuiColor.opacity(0.65)
+    case .dark: return HelloColor.veryDimWhite.swiftuiColor
     case .white, .black, .dim: return primary
     }
   }
@@ -43,11 +43,11 @@ public enum HelloTextColors: Equatable, Codable {
   public var invert: Color {
     switch self {
     case .constant(let color): return color.swiftuiColor
-    case .light, .ketchup: return .selfTextPrimaryDark
-    case .dark: return .selfTextPrimaryLight
+    case .light, .ketchup: return HelloColor.dark.swiftuiColor
+    case .dark: return HelloColor.light.swiftuiColor
     case .white: return HelloColor.black.swiftuiColor
     case .black: return HelloColor.white.swiftuiColor
-    case .dim: return .selfTextTertiaryDark
+    case .dim: return HelloColor.darkGrey.swiftuiColor
     }
   }
 }
