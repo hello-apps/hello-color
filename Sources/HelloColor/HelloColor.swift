@@ -69,6 +69,7 @@ public extension HelloColor {
   static var darker: HelloColor { HelloColor(r: 0.1, g: 0.1, b: 0.1) }
   static var transparent: HelloColor { HelloColor(r: 0, g: 0, b: 0, a: 0) }
   static var light: HelloColor { HelloColor(r: 0.9, g: 0.9, b: 0.9) }
+  static var oldWhite: HelloColor { HelloColor(r: 0.95, g: 0.95, b: 0.91) }
   static var offWhite: HelloColor { HelloColor(r: 0.95, g: 0.95, b: 0.95) }
   
   static var dimWhite: HelloColor { HelloColor(r: 0.5, g: 0.5, b: 0.5) }

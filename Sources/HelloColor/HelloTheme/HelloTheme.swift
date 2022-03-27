@@ -259,6 +259,13 @@ public extension HelloTheme {
                accentColor: .mario.yellow)
   }
   
+  static var darkTranslucent: HelloTheme {
+    HelloTheme(background: .darkTranslucent,
+               layer1Background: .slightLighten,
+               layer2Background: .slightDarken,
+               floatingBackground: .darkBlur)
+  }
+  
   static var lightTranslucent: HelloTheme {
     HelloTheme(background: .lightTranslucent,
                layer1Background: .slightLighten,

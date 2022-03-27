@@ -39,23 +39,26 @@ fileprivate struct BaseGlitchIconView: View {
 
 public struct GlitchIconView: View {
   
+  private class NonObserved {
+    var size: CGFloat = 0
+  }
+  
   let characterView: AnyView
   
   public init<CharacterView: View>(characterView: CharacterView) {
     self.characterView = AnyView(characterView)
   }
   
-  @State var size: CGFloat = 0
+  @State private var nonObserved = NonObserved()
   @State var image: NativeImage?
   
   func update(size: CGFloat) {
-    guard self.size != size else { return }
+    guard nonObserved.size != size else { return }
+    nonObserved.size = size
     dispatchMainAsync {
-      self.size = size
       if let image = ImageRenderer.render(view: BaseGlitchIconView(characterView: characterView),
                                           size: CGSize(width: size, height: size)) {
         self.image = image
-        self.size = 0
       }
     }
   }

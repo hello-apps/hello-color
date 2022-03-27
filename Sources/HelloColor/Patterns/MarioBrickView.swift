@@ -14,7 +14,7 @@ public struct MarioBrickView: View {
   public var body: some View {
     GeometryReader { geometry in
       VStack(spacing: brickSpacing * geometry.size.width) {
-        ForEach(0..<Int(ceil(geometry.size.height / ((brickSize.height + brickSpacing) * geometry.size.width)))) { row in
+        ForEach(0..<Int(ceil(geometry.size.height / ((brickSize.height + brickSpacing) * geometry.size.width))), id: \.self) { row in
           HStack(spacing: 0) {
             if row % 2 == 0 {
               Rectangle()

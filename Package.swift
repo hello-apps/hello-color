@@ -33,7 +33,7 @@ let package = Package(
         .target(
           name: "HelloColor",
           dependencies: [
-            .byNameItem(name: "SwiftUIConvenience", condition: nil),
+            .product(name: "SwiftUIConvenience", package: "swiftui-convenience"),
           ],
           swiftSettings: [.define("APPLICATION_EXTENSION_API_ONLY")]),
         .testTarget(

@@ -40,18 +40,24 @@ public enum HelloSectionBackground: Equatable, Codable {
       ZStack {
         #if os(iOS)
         Blur(style: .systemUltraThinMaterialLight)
+        #elseif os(macOS)
+        Blur()
         #endif
       }.clipShape(shape)
     case .darkBlur:
       ZStack {
         #if os(iOS)
         Blur(style: .systemUltraThinMaterialDark)
+        #elseif os(macOS)
+        Blur()
         #endif
       }.clipShape(shape)
     case .veryDarkBlur:
       ZStack {
         #if os(iOS)
         Blur(style: .systemUltraThinMaterialDark)
+        #elseif os(macOS)
+        Blur()
         #endif
         Color.black.opacity(0.75)
       }.clipShape(shape)
@@ -60,7 +66,11 @@ public enum HelloSectionBackground: Equatable, Codable {
         shape.fill(fill.swiftuiColor)
         shape.strokeBorder(border.swiftuiColor, lineWidth: 2)
       }
-    default: shape.fill(color(layeredOn: underColor).swiftuiColor)
+    default:
+      ZStack {
+        shape.fill(color(layeredOn: underColor).swiftuiColor)
+        shape.strokeBorder(.black.opacity(0.1), lineWidth: 1)
+      }
     }
   }
 }
