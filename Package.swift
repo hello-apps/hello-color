@@ -9,7 +9,7 @@ if helloPackagesPath.hasPrefix("file://") {
 
 let swiftUIConveniencePackage: Package.Dependency
 if FileManager.default.fileExists(atPath: "\(helloPackagesPath)swiftui-convenience") {
-  swiftUIConveniencePackage = .package(name: "SwiftUIConvenience",
+  swiftUIConveniencePackage = .package(name: "swiftui-convenience",
                                        path: "\(helloPackagesPath)swiftui-convenience")
 } else {
   swiftUIConveniencePackage = .package(url: "https://github.com/hello-apps/swiftui-convenience",
