@@ -41,8 +41,9 @@ public struct StandardAppIconView: View {
 //                               .init(color: accentColor.swiftuiColor, location: 1)],
 //                       center: .center, startRadius: 0.25 * geometry.size.minSide,
 //                       endRadius: geometry.size.minSide)
-        LinearGradient(stops: [.init(color: accentColor.withFakeAlpha((1 - 0.95 * accentColor.brightness), background: .dark).swiftuiColor, location: 0),
-                               .init(color: HelloColor.dark.swiftuiColor, location: 1)
+        LinearGradient(stops: [.init(color: HelloColor.dark.swiftuiColor, location: 0),
+                               .init(color: accentColor.withFakeAlpha((1 - 0.95 * accentColor.brightness), background: .dark).swiftuiColor, location: 1),
+                               
                                //.init(color: HelloColor.dark.swiftuiColor, location: 0.6),
                                //.init(color: accentColor.swiftuiColor, location: 0.76),
                                //.init(color: accentColor.swiftuiColor, location: 0.9),
